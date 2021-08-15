@@ -6,16 +6,16 @@ import org.openqa.selenium.WebElement;
 
 public class GoogleBeforeSearch {
     protected WebDriver chromeDriver;
-    private final WebElement searchField;
-    private final WebElement searchButton;
+    private WebElement searchField;
+    private WebElement searchButton;
 
     public GoogleBeforeSearch(WebDriver chromeDriver) {
         this.chromeDriver = chromeDriver;
-        searchField = chromeDriver.findElement(By.name("q"));
-        searchButton = chromeDriver.findElement(By.name("btnK"));
     }
 
     public void find(String keysFind){
+        searchField = chromeDriver.findElement(By.name("q"));
+        searchButton = chromeDriver.findElement(By.name("btnK"));
         searchField.click();
         searchField.sendKeys(keysFind);
         searchButton.click();

@@ -1,5 +1,7 @@
 package ru.open;
 
+import ru.open.pages.GoogleAfterSearch;
+import ru.open.pages.GoogleBeforeSearch;
 import ru.open.pages.GooglePageFactory;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.Assertions;
@@ -90,6 +92,18 @@ public class Tests extends BaseTests{
         double bankSellEUR = Double.parseDouble(eurField[0].findElement(By.xpath("//*/div[@class='main-page-exchange__indicator main-page-exchange__indicator--down']")).getText().replace(",","."));
 
         Assertions.assertTrue(bankSellUSD > bankBuyUSD && bankSellEUR > bankBuyEUR);
+    }
+
+    @Feature("Проверка результатов поиска")
+    @DisplayName("Проверка результатов поиска c помощью PO")
+    @ParameterizedTest(name = "{displayName} {arguments}")
+    @CsvSource({"Открытие,https://www.open.ru"})
+    public void testPO(String keyWords,String result){
+        chromeDriver.get("https://www.google.com/");
+        GoogleBeforeSearch googleBeforeSearch = new GoogleBeforeSearch(chromeDriver);
+        googleBeforeSearch.find(keyWords);
+        GoogleAfterSearch googleAfterSearch = new GoogleAfterSearch(chromeDriver);
+        Assertions.assertTrue(googleAfterSearch.getResultsSearch().stream().anyMatch(x->x.getText().contains(result)));
     }
 
     @Feature("Проверка результатов поиска")
