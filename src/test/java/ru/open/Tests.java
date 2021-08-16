@@ -48,12 +48,13 @@ public class Tests extends BaseTests{
             }
         });
 
-        double bankBuyUSD = Double.parseDouble(usdField[0].findElement(By.xpath("//*/div[@class='main-page-exchange__indicator main-page-exchange__indicator--up']")).getText().replace(",","."));
-        double bankSellUSD = Double.parseDouble(usdField[0].findElement(By.xpath("//*/div[@class='main-page-exchange__indicator main-page-exchange__indicator--down']")).getText().replace(",","."));
+        List<WebElement> usd = usdField[0].findElements(By.xpath("//*/span[@class='main-page-exchange__rate']"));
+        List<WebElement> eur = eurField[0].findElements(By.xpath("//*/span[@class='main-page-exchange__rate']"));
+        double bankBuyUSD = Double.parseDouble(usd.get(0).getText().replace(",","."));
+        double bankSellUSD = Double.parseDouble(usd.get(1).getText().replace(",","."));
 
-        double bankBuyEUR = Double.parseDouble(eurField[0].findElement(By.xpath("//*/div[@class='main-page-exchange__indicator main-page-exchange__indicator--up']")).getText().replace(",","."));
-        double bankSellEUR = Double.parseDouble(eurField[0].findElement(By.xpath("//*/div[@class='main-page-exchange__indicator main-page-exchange__indicator--down']")).getText().replace(",","."));
-
+        double bankBuyEUR = Double.parseDouble(eur.get(0).getText().replace(",","."));
+        double bankSellEUR = Double.parseDouble(eur.get(1).getText().replace(",","."));
         Assertions.assertTrue(bankSellUSD > bankBuyUSD && bankSellEUR > bankBuyEUR);
     }
 
@@ -85,11 +86,13 @@ public class Tests extends BaseTests{
             }
         });
 
-        double bankBuyUSD = Double.parseDouble(usdField[0].findElement(By.xpath("//*/div[@class='main-page-exchange__indicator main-page-exchange__indicator--up']")).getText().replace(",","."));
-        double bankSellUSD = Double.parseDouble(usdField[0].findElement(By.xpath("//*/div[@class='main-page-exchange__indicator main-page-exchange__indicator--down']")).getText().replace(",","."));
+        List<WebElement> usd = usdField[0].findElements(By.xpath("//*/span[@class='main-page-exchange__rate']"));
+        List<WebElement> eur = eurField[0].findElements(By.xpath("//*/span[@class='main-page-exchange__rate']"));
+        double bankBuyUSD = Double.parseDouble(usd.get(0).getText().replace(",","."));
+        double bankSellUSD = Double.parseDouble(usd.get(1).getText().replace(",","."));
 
-        double bankBuyEUR = Double.parseDouble(eurField[0].findElement(By.xpath("//*/div[@class='main-page-exchange__indicator main-page-exchange__indicator--up']")).getText().replace(",","."));
-        double bankSellEUR = Double.parseDouble(eurField[0].findElement(By.xpath("//*/div[@class='main-page-exchange__indicator main-page-exchange__indicator--down']")).getText().replace(",","."));
+        double bankBuyEUR = Double.parseDouble(eur.get(0).getText().replace(",","."));
+        double bankSellEUR = Double.parseDouble(eur.get(1).getText().replace(",","."));
 
         Assertions.assertTrue(bankSellUSD > bankBuyUSD && bankSellEUR > bankBuyEUR);
     }
@@ -101,9 +104,11 @@ public class Tests extends BaseTests{
     public void testPO(String keyWords,String result){
         chromeDriver.get("https://www.google.com/");
         GoogleBeforeSearch googleBeforeSearch = new GoogleBeforeSearch(chromeDriver);
+        googleBeforeSearch.init();
         googleBeforeSearch.find(keyWords);
         GoogleAfterSearch googleAfterSearch = new GoogleAfterSearch(chromeDriver);
         Assertions.assertTrue(googleAfterSearch.getResultsSearch().stream().anyMatch(x->x.getText().contains(result)));
+        Assertions.assertTrue(googleAfterSearch.checkExchanges());
     }
 
     @Feature("Проверка результатов поиска")

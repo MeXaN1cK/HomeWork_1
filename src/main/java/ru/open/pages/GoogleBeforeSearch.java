@@ -13,9 +13,12 @@ public class GoogleBeforeSearch {
         this.chromeDriver = chromeDriver;
     }
 
+    public void init() {
+        searchField = chromeDriver.findElement(By.xpath("//*/input[@class and @name='q']"));
+        searchButton = chromeDriver.findElement(By.xpath("//*/input[@class and @name='btnK']"));
+    }
+
     public void find(String keysFind){
-        searchField = chromeDriver.findElement(By.name("q"));
-        searchButton = chromeDriver.findElement(By.name("btnK"));
         searchField.click();
         searchField.sendKeys(keysFind);
         searchButton.click();

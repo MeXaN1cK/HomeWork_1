@@ -39,6 +39,7 @@ public class Tests extends BaseTests{
     public void testPO(String keyWords,String result){
         chromeDriver.get("https://www.google.com/");
         GoogleBeforeSearch googleBeforeSearch = new GoogleBeforeSearch(chromeDriver);
+        googleBeforeSearch.init();
         googleBeforeSearch.find(keyWords);
         GoogleAfterSearch googleAfterSearch = new GoogleAfterSearch(chromeDriver);
         Assertions.assertTrue(googleAfterSearch.getResultsSearch().stream().anyMatch(x->x.getText().contains(result)));
